@@ -1,6 +1,9 @@
+const webpack = require('webpack');
+
 module.exports = {
-  entry: [
-    './src/index.js'
+  entry: './src/index.js',
+  plugins: [
+    new webpack.HotModuleReplacementPlugin() 
   ],
   output: {
     path: __dirname,
@@ -8,18 +11,20 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    loaders: [{
+    rules: [{
       exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: ['react', 'es2015', 'stage-1']
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ["es2015", "es2016"]
+          ] 
+        }
       }
     }]
   },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
   devServer: {
+    hot: true,
     historyApiFallback: true,
     contentBase: './'
   }
